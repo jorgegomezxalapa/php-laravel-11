@@ -15,3 +15,4 @@ Route::post('/obras/store', [App\Http\Controllers\ObraController::class, 'store'
 Route::get('/obras/show/{id}', [App\Http\Controllers\ObraController::class, 'show'])->name('obras.show');
 Route::post('/obras/delete', [App\Http\Controllers\ObraController::class, 'delete'])->name('obras.delete');
 
+Route::get('/obras/pdf/{id}', [App\Http\Controllers\ObraController::class, 'pdf'])->name('obras.pdf');

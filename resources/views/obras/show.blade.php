@@ -82,7 +82,7 @@
                 <div class="col-12">
                     <hr>
                     <div class="d-flex justify-content-end">
-                        <button class="btn btn-primary">Generar ficha de obra</button>
+                        <a href="{{ route("obras.pdf", $obra->id) }}" target="_blank" class="btn btn-primary">Generar ficha de obra</a>
                     </div>
                 </div>
             @endauth
