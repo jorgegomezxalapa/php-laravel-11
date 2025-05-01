@@ -6,3 +6,43 @@
 
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
+
+
+.map-container {
+    width: 100%;
+    height: 400px;
+}
+
+.fixed-img {
+    width: 100%;
+    height: 150px; /* Tamaño uniforme para todas las imágenes */
+    object-fit: cover; /* Evita deformaciones manteniendo proporciones */
+}
+
+.scroll-text {
+    height: 100px; /* Define altura fija para evitar que desborde */
+    overflow-y: auto; /* Agrega scroll cuando el contenido es demasiado largo */
+    padding: 5px; /* Mejora la legibilidad */
+}
+
+/* Asegurar que todas las tarjetas tengan la misma altura */
+.card {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Evitar que los botones expandan la tarjeta */
+.mt-auto {
+    margin-top: auto;
+}
+
+.fixed-img {
+    width: 100px; /* Tamaño fijo para las imágenes */
+    height: 50px;
+    object-fit: cover;
+}
+
+.scroll-text {
+    max-height: 80px; /* Evita que el texto desborde */
+    overflow-y: auto;
+}
