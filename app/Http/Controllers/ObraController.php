@@ -3,7 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Obra;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Http\Request;
+
 
 class ObraController extends Controller
 {
@@ -51,4 +57,40 @@ class ObraController extends Controller
         $obra->delete();
         return redirect()->route("obras.index")->with("success", "La obra se ha eliminado con éxito");
     }
+
+
+    public function pdf($id){
+        // Verificar autenticación
+        if (!Auth::check()) {
+            abort(403, "Debe estar autenticado para generar el PDF.");
+        }
+
+        // Obtener la obra y verificar que existe
+        $obra = Obra::find($id);
+        if (!$obra) {
+            abort(404, "La obra ya no existe.");
+        }
+
+        // Generar la URL dinámica
+        $url = route('obras.pdf', ['id' => $id]);
+
+        // Crear y guardar el código QR
+        $qrCode = QrCode::create($url)
+            ->setSize(200)
+            ->setMargin(10);
+        $writer = new PngWriter();
+        $result = $writer->write($qrCode);
+        $qrPath = public_path("qrcode_{$id}.png");
+        file_put_contents($qrPath, $result->getString());
+
+        // Generar PDF con la imagen del QR
+        $pdf = PDF::loadView('pdf.obra', [
+            'qrPath' => asset("qrcode_{$id}.png"),
+            'obra' => $obra
+        ]);
+
+        return $pdf->download('ficha_obra.pdf');
+    }
+    
+
 }
