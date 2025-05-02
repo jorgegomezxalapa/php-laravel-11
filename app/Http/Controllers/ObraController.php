@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Incidente;
 use App\Models\Obra;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
@@ -28,11 +29,12 @@ class ObraController extends Controller
 
     public function create($id = null){
         $obra = Obra::find($id);
-        return view("obras.form", compact("obra"));
+        $incidentes = Incidente::all();
+        $incidentesSeleccionados = $obra ? ($obra->incidentes ? $obra->incidentes->pluck('id')->toArray() : [])  : [];
+        return view("obras.form", compact("obra", "incidentes", "incidentesSeleccionados"));
     }
 
     public function store(Request $request){
-
         $obraData = [
             'numero' => $request->numero_obra,
             'nombre' => $request->nombre_obra,
@@ -48,11 +50,16 @@ class ObraController extends Controller
             if ($obra) {
                 $obra->update($obraData);
                 $accion = "actualizado";
+        
+                $obra->incidentes()->sync([]);
+        
+                if ($request->has('incidentes')) {
+                    $obra->incidentes()->sync($request->incidentes);
+                }
             } else {
                 return redirect()->route("obras.index")->with("error", "La obra no se encontró.");
             }
         } else {
-           
             $images = $this->pexelsService->getConstructionImages(5);
             $formattedImages = array_map(function ($image) {
                 return [
@@ -61,13 +68,18 @@ class ObraController extends Controller
                     'photographer_url' => $image['photographer_url']
                 ];
             }, $images);
-    
+        
             $obraData['galeria_imagenes'] = json_encode($formattedImages);
-    
-            Obra::create($obraData);
+        
+            $obra = Obra::create($obraData);
             $accion = "registrado";
+        
+            if ($request->has('incidentes')) {
+                $obra->incidentes()->sync($request->incidentes);
+            }
         }
-    
+        
+
         return redirect()->route("obras.index")->with("success", "La obra se ha $accion con éxito");
     }
 

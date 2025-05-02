@@ -10,7 +10,7 @@ class IncidenteController extends Controller
     public function index()
     {
        
-        $incidentes = Incidente::paginate(2);
+        $incidentes = Incidente::paginate(10);
         return view("incidentes.index", compact("incidentes"));
     }
 

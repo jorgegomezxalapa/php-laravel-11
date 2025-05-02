@@ -58,8 +58,21 @@
                 <p><strong>Número de obra:</strong> {{ $obra->numero }}</p>
                 <p><strong>Nombre de obra:</strong> {{ $obra->nombre }}</p>
                 <p><strong>Objeto de la obra:</strong> {{ $obra->objeto }}</p>
-                <p><strong>Incidentes de la obra:</strong>
-                    {{ $obra->incidentes->count() ? 'Mostrar incidentes' : 'Asignar incidentes' }}</p>
+                <p><strong>Incidentes de la obra:</strong></p>
+                @if ($obra->incidentes->count())
+                    <ul class="list-group">
+                        @foreach ($obra->incidentes as $incidente)
+                            <li class="list-group-item">
+                                <strong>Tipo:</strong> {{ $incidente->tipo_incidente }} <br>
+                                <strong>Descripción:</strong> {{ $incidente->descripcion }} <br>
+                                <strong>Fecha:</strong> {{ \Carbon\Carbon::parse($incidente->fecha_incidente)->format('d/m/Y') }}
+                            </li>
+                        @endforeach
+                    </ul>
+                @else
+                Sin incidentes relacionados
+                @endif
+
             </div>
             <div class="col-12">
                 <hr>

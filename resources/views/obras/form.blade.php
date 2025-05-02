@@ -51,6 +51,26 @@
                                         value="{{ @$obra->longitud }}" required>
                                     <div class="invalid-feedback">Debe ser un valor entre -180 y 180.</div>
                                 </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Incidentes</label>
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownIncidentes" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Selecciona incidentes
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownIncidentes">
+                                            @foreach ($incidentes as $incidente)
+                                                <li class="mx-2 my-1">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input incidente-checkbox" type="checkbox" name="incidentes[]" value="{{ $incidente->id }}" 
+                                                            {{ in_array($incidente->id, $incidentesSeleccionados) ? 'checked' : '' }}>
+                                                        <label class="form-check-label">{{ $incidente->tipo_incidente }} - <small>{{ $incidente->fecha_incidente }}</small></label>
+                                                    </div>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+
+                                </div>
                             </div>
                             <div class="d-flex justify-content-end">
                                 <button type="submit" class="btn btn-primary">{{ @$obra ? 'Editar' : 'Guardar' }}
