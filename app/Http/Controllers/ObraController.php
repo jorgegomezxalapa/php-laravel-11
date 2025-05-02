@@ -7,12 +7,20 @@ use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
-
 use Illuminate\Http\Request;
+use App\Services\PexelsService;
 
 
 class ObraController extends Controller
 {
+    protected $pexelsService;
+
+    public function __construct(PexelsService $pexelsService)
+    {
+        $this->pexelsService = $pexelsService;
+    }
+
+
     public function index(){
         $obras = Obra::get();
         return view("obras.index", compact("obras"));
@@ -24,28 +32,46 @@ class ObraController extends Controller
     }
 
     public function store(Request $request){
-            $obraData = [
-                'numero' => $request->numero_obra,
-                'nombre' => $request->nombre_obra,
-                'clave' => $request->clave_obra,
-                'objeto' => $request->objeto_obra,
-                'direccion' => $request->direccion,
-                'latitud' => $request->latitud,
-                'longitud' => $request->longitud,
-                'galeria_imagenes' => json_encode([]),
-            ];
-            if($request->obra_id){
-                $obra = Obra::find($request->obra_id);
+
+        $obraData = [
+            'numero' => $request->numero_obra,
+            'nombre' => $request->nombre_obra,
+            'clave' => $request->clave_obra,
+            'objeto' => $request->objeto_obra,
+            'direccion' => $request->direccion,
+            'latitud' => $request->latitud,
+            'longitud' => $request->longitud
+        ];
+    
+        if ($request->obra_id) {
+            $obra = Obra::find($request->obra_id);
+            if ($obra) {
                 $obra->update($obraData);
                 $accion = "actualizado";
-            }else{
-                Obra::create($obraData);
-                $accion = "registrado";
+            } else {
+                return redirect()->route("obras.index")->with("error", "La obra no se encontró.");
             }
-        
+        } else {
+           
+            $images = $this->pexelsService->getConstructionImages(5);
+            $formattedImages = array_map(function ($image) {
+                return [
+                    'url' => $image['src']['original'],
+                    'photographer' => $image['photographer'],
+                    'photographer_url' => $image['photographer_url']
+                ];
+            }, $images);
+    
+            $obraData['galeria_imagenes'] = json_encode($formattedImages);
+    
+            Obra::create($obraData);
+            $accion = "registrado";
+        }
+    
         return redirect()->route("obras.index")->with("success", "La obra se ha $accion con éxito");
     }
 
+    
     public function show($id)
     {
         $obra = Obra::findOrFail($id);
