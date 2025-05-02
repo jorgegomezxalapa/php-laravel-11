@@ -28,7 +28,7 @@
                             <a class="nav-link" href="{{ route('incidentes.index') }}">Incidentes</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Usuarios</a>
+                            <a class="nav-link" href="{{ route('usuarios.index') }}">Usuarios</a>
                         </li>
                     </ul>
                 @endauth
