@@ -46,3 +46,10 @@
     max-height: 80px; /* Evita que el texto desborde */
     overflow-y: auto;
 }
+
+.carousel-item img {
+    width: 100%; 
+    height: 400px; /* Ajusta la altura según lo necesites */
+    object-fit: cover; /* Hace que la imagen se ajuste manteniendo proporciones */
+}
+
