@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class ObraController extends Controller
 {
     public function index(){
-        $obras = Obra::get();
+        $obras = Obra::paginate(10);
         return view("obras.index", compact("obras"));
     }
 
@@ -21,6 +21,17 @@ class ObraController extends Controller
     }
 
     public function store(Request $request){
+        
+        $request->validate([
+            'numero_obra' => 'required|integer|min:100|max:999|unique:obras,numero,' . ($request->obra_id ?? 'NULL') . ',id',
+            'nombre_obra' => 'required|string|max:255',
+            'clave_obra' => ['required', 'regex:/^GT2025-[A-Z]{3}\/\d{2}$/', 'unique:obras,clave,' . ($request->obra_id ?? 'NULL') . ',id'],
+            'objeto_obra' => 'required|string',
+            'direccion' => 'required|string',
+            'latitud' => 'required|numeric|between:-90,90',
+            'longitud' => 'required|numeric|between:-180,180',
+        ]);
+
         $obraData = [
             'numero' => $request->numero_obra,
             'nombre' => $request->nombre_obra,

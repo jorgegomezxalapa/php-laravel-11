@@ -55,6 +55,9 @@
                         @endforelse
                     </tbody>
                 </table>
+                <div>
+                    {{ $obras->onEachSide(5)->links() }}
+                </div>
             </div>
         </div>
     </div>
