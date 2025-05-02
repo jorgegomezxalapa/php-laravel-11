@@ -25,10 +25,10 @@
                             <a class="nav-link" href="{{ route('obras.create') }}">Registrar Obras</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Registrar Incidentes</a>
+                            <a class="nav-link" href="{{ route('incidentes.index') }}">Incidentes</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Registrar usuarios</a>
+                            <a class="nav-link" href="#">Usuarios</a>
                         </li>
                     </ul>
                 @endauth
