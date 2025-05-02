@@ -73,5 +73,8 @@
             @yield('content')
         </main>
     </div>
+    <footer class="text-center py-3">
+        <p>Photos provided by <a href="https://www.pexels.com" target="_blank">Pexels</a></p>
+    </footer>
 </body>
 </html>

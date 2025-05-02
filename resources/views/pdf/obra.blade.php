@@ -20,7 +20,6 @@
 
 <body>
     <h1>Ficha de la obra</h1>
-    <img src="{{ public_path('qrcode_' . $obra->id . '.png') }}" alt="Código QR">
     <p><strong>Número de obra:</strong></p>
     <p>{{ $obra->numero }}</p>
     <p><strong>Nombre de la obra:</strong></p>

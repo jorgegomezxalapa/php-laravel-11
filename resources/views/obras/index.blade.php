@@ -24,8 +24,15 @@
                                 <td>{{ $obra->numero }}</td>
                                 <td>{{ $obra->nombre }}</td>
                                 <td>
-                                    <img src="https://constructorainsur.com/wp-content/uploads/2022/11/img_obracivil-161.jpg"
-                                        class="img-thumbnail fixed-img" alt="Imagen de obra">
+                                    @php
+                                        $imagenes = json_decode($obra->galeria_imagenes, true);
+                                        $imagen = $imagenes[0] ?? null;
+                                    @endphp
+                                    @if ($imagen)
+                                        <img src="{{ $imagen['url'] }}" class="img-thumbnail fixed-img" alt="Imagen de obra">
+                                    @else
+                                        <p>No hay imágenes disponibles</p>
+                                    @endif
                                 </td>
                                 <td>
                                     <div class="scroll-text">{{ $obra->objeto }}</div>
@@ -36,9 +43,7 @@
                                             Ver detalle
                                         </a>
                                         @auth
-                                            <button type="button" class="btn btn-primary btn-sm">
-                                                Generar ficha
-                                            </button>
+                                            <a href="{{ route('obras.pdf', $obra->id) }}" target="_blank" class="btn btn-primary btn-sm">Generar ficha</a>
                                         @endauth
                                     </div>
                                 </td>
