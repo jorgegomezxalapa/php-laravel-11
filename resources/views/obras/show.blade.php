@@ -77,8 +77,8 @@
             <div class="col-12">
                 <hr>
                 <p><strong>Ubicación de la obra</strong></p>
-                <input type="" name="latitud_hidden" id="latitud_hidden" value="{{ @$obra->latitud }}">
-                <input type="" name="longitud_hidden" id="longitud_hidden" value="{{ @$obra->longitud }}">
+                <input type="hidden" name="latitud_hidden" id="latitud_hidden" value="{{ @$obra->latitud }}">
+                <input type="hidden" name="longitud_hidden" id="longitud_hidden" value="{{ @$obra->longitud }}">
                 <div id="map" class="map-container"></div>
             </div>
             @auth

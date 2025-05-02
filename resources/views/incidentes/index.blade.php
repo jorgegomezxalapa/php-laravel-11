@@ -22,19 +22,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($incidentes as $incidente)
+                        @forelse ($incidentes as $incidente)
                             <tr>
                                 <td>{{ $incidente->tipo_incidente }}</td>
                                 <td>{{ $incidente->descripcion }}</td>
                                 <td>{{ \Carbon\Carbon::parse($incidente->fecha_incidente)->format('d/m/Y') }}
                                 </td>
                                 <td>
-                                    <a class="btn btn-warning btn-sm" href="{{ route('incidentes.create', $incidente->id) }}">Editar</a>
-                                    <button type="button" class="btn btn-danger btn-sm btn-eliminar-incidente" data-bs-toggle="modal"
-                                    data-bs-target="#modalEliminarIncidente" data-incidente_id="{{ @$incidente->id }}">Eliminar</button>
+                                    <a class="btn btn-warning btn-sm"
+                                        href="{{ route('incidentes.create', $incidente->id) }}">Editar</a>
+                                    <button type="button" class="btn btn-danger btn-sm btn-eliminar-incidente"
+                                        data-bs-toggle="modal" data-bs-target="#modalEliminarIncidente"
+                                        data-incidente_id="{{ @$incidente->id }}">Eliminar</button>
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="5" class="text-center">No hay incidentes disponibles.</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
                 <div>
@@ -43,5 +49,5 @@
             </div>
         </div>
     </div>
-    @include("incidentes._modal_eliminar_incidente")
+    @include('incidentes._modal_eliminar_incidente')
 @endsection
