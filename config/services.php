@@ -34,5 +34,9 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+    'pexels' => [
+        'api_key' => env('PEXELS_API_KEY'),
+        'count' => env('PEXELS_COUNT'),
+    ],
 
 ];
